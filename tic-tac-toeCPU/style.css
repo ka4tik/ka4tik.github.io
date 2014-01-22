@@ -1,0 +1,69 @@
+#modal{
+    position:absolute;
+    top:0;
+    bottom:0;
+    right:0;
+    left:0;
+    background:black;
+    font-color:white;
+    text-align:center;
+}
+button{
+    border:none;
+    height:30px;
+    width:200px;
+    background:blue;
+    color:white;
+}
+h1{
+    color:white;
+}
+#status{
+    float:right;
+    padding-top:200px;
+    padding-right:300px;
+}
+body{
+    background:grey;
+}
+#title{
+    /*font-family:monospace;*/
+    font-size:30px;
+    text-align:center;
+    text-shadow:10px 10px 8px white;
+}
+p{
+    font-family:monospace;
+    font-size:30px;
+    color:blue;
+    text-align:center;
+}
+#board{
+    width:900px;
+    margin:0 auto;
+}
+    
+.square{
+    width:150px;
+    height:150px;
+    background:#85B547;
+    text-align:center;
+    font-size:80px;
+    text-shadow:1px 1px 2px black;
+}
+.error{
+    color:red;
+}
+.green{
+    color:green;
+}
+.zero{
+    color:red;
+}
+.cross{
+    color:green;
+}
+.highlight{
+    box-shadow: 0 0 10px black;
+}
+
