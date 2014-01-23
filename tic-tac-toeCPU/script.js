@@ -91,7 +91,122 @@ $(document).ready(function(){
                 },2000);
             });
     }
+    var Possible_Wins= 8;
+    var Three_in_a_Row = [
+        [ 0, 1, 2 ],
+        [ 3, 4, 5 ],
+        [ 6, 7, 8 ],
+        [ 0, 3, 6 ],
+        [ 1, 4, 7 ],
+        [ 2, 5, 8 ],
+        [ 0, 4, 8 ],
+        [ 2, 4, 6 ]];
+    var Heuristic_Array= [
+        [     0,   -10,  -100, -1000 ],
+        [    10,     0,     0,     0 ],
+        [   100,     0,     0,     0 ],
+        [  1000,     0,     0,     0 ]];
 
+    var nextX,nextY;
+
+    function evaluatePosition(){
+        board = new Array(9);
+        var k=0;
+        for(var i=0;i<3;i++)
+            for(var j=0;j<3;j++)
+            {
+                board[k]=grid[i][j];
+                k++;
+            }
+        console.log(" board is = " + board);
+        var opponent = 1-player,piece;
+        var players, others, t = 0, i, j;
+        for(i=0; i<8; i++)  {
+            players = others = 0;
+            for(j=0; j<3; j++)  {
+                piece = board[Three_in_a_Row[i][j]];
+                console.log("piece = "+ piece);
+
+                if (piece == player)
+                    players++;
+                else if (piece == opponent)
+                    others++;
+            }
+            console.log("players = "+ players);
+            console.log("others = "+ others);
+            var temp=Heuristic_Array[players][others];
+            if(temp==1000)
+                return 1000000;
+            t=t+temp;
+        }
+        console.log("t = "+ t);
+        return t;
+    }
+    function evaluateOppNext(){
+
+        var m=-1000000;
+        for(var i=0;i<3;i++)
+        {
+            for(var j=0;j<3;j++)
+            {
+                if(grid[i][j]==-1)
+                {
+                    grid[i][j]=player;
+                    var ev=evaluatePosition();
+                    if(ev>m)
+                    {
+                        m=ev;
+                    }
+                    grid[i][j]=-1;
+                }
+            }
+        }
+        return m;
+
+    }
+    function nextMove(){
+
+        var bX,bY;
+        var m=-1000000;//INT_MIN;
+        for(var i=0;i<3;i++)
+        {
+            for(var j=0;j<3;j++)
+            {
+                if(grid[i][j]==-1)
+                {
+                    grid[i][j]=player;
+                    var ev=evaluatePosition();
+                    if(ev==1000000)
+                    {
+                        //printf("%d %d\n",i,j);
+                        nextX=i;
+                        nextY=j;
+                        return;
+                    }
+                    else
+                    {
+                        player=1-player;
+                        ev+=(-evaluateOppNext());
+                        player=1-player;
+                    }
+                    if(ev>m)
+                    {
+                        bX=i;bY=j;
+                        m=ev;
+                    }
+                    grid[i][j]=-1;
+
+                    console.log("ev = " + ev);
+                    console.log("m = " + m);
+
+                }
+            }
+        }
+        //printf("%d %d\n",bX,bY);
+        nextX=bX;
+        nextY=bY;
+
+    }
 
 
     function computermove(){
@@ -106,6 +221,11 @@ $(document).ready(function(){
                 }
             }
         }
+        nextMove();
+        row=nextX;
+        col=nextY;
+        console.log(nextX);
+        console.log(nextY);
         grid[row][col]=player;
         row++;
         col++;
