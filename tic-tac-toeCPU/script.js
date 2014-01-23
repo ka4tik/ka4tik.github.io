@@ -320,7 +320,7 @@ $(document).ready(function(){
     player=1-player;
     setTimeout(function(){
         computermove();
-    },1000);
+    },300);
     });
 
 });
